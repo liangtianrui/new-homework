@@ -1,0 +1,29 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+body {
+    background: url('../images/download.jpg') no-repeat;
+    background-size:cover;
+}
+
+
+form {
+    width: 300px;
+    /*text-align: center;*/
+    font-size: 15px;
+}
+input {
+    width: 200px;
+    height: 30px;
+    border: 1px solid lightblue;
+    background-color: transparent;
+    color: aqua;
+    font-size: 20px;
+}
+.aaa {
+    color: #00B7FF;
+    text-decoration: none;
+   text-align: right;
+    border: 1px solid black;
+}
