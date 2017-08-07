@@ -46,14 +46,20 @@ router.post('/', function (req, res) {
             if (result.length !== 0) {
                 var user = result[0];
 
-                if(user.password == password){
-                    var update = `update user set password = '${password1}' where username = '${username}'`;
-                    conection.query(update,function (error) {
-                        handlerError('修改',error);
-                        res.send('修改成功');
-                    })
+                if (user.password === password) {
 
-                }else {
+                    if (password1 === password2) {
+                        var update = `update user set password = '${password1}' where username = '${username}'`;
+                        conection.query(update, function (error) {
+                            handlerError('修改', error);
+                            res.send('修改成功');
+                        })
+                    } else {
+                        res.send('新密码不一致');
+                    }
+
+
+                } else {
                     res.send('原密码不对');
                 }
 
