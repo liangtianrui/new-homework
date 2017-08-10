@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #root {
+            width: 100%;
+            background-color: aqua;
+            color: white;
+            height: 40px;
+        }
+
+        ul {
+            /*overflow: hidden;*/
+            line-height: 40px;
+        }
+
+        li {
+            color: white;
+            list-style-type: none;
+            float: left;
+            margin-left: 30px;
+            height: 100%;
+            /*box-sizing: border-box;*/
+        }
+
+        li:first-child {
+            font-size: 20px;
+        }
+
+        li:hover {
+            background-color: aquamarine;
+        }
+
+        li:last-child {
+            float: right;
+            color: black;
+            padding-left: 30px;
+        }
+    </style>
+
+
+    <script src="node_modules/react/dist/react.js"></script>
+    <script src="node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="node_modules/babel-standalone/babel.js"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+<script type="text/babel">
+
+
+    var navArr = ['廖雪峰的官网','编程', '读书', 'java教程', 'javaScript教程', 'python教程', 'Git教程', '问答', '赞助','登录']
+
+    var HelloMessage = React.createClass({
+        render: function() {
+            return <h1>Hello {this.props.name}</h1>;
+        }
+    });
+
+
+
+    const element = (
+            <ul>
+                {
+                    navArr.map(function (item) {
+                        return <li > {item} </li>
+                    })
+                }
+
+            </ul>
+    )
+
+
+    ReactDOM.render(
+            <HelloMessage/>
+            , document.getElementById('root')
+    )
+
+</script>
+
+
+</body>
+</html>
