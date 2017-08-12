@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>知乎日报</title>
+    <script src="node_modules/react/dist/react.js"></script>
+    <script src="node_modules/react-dom/dist/react-dom.js"></script>
+    <script src="node_modules/babel-standalone/babel.js"></script>
+    <link rel="stylesheet" href="animate.min.css">
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    /*头部*/
+    .header {
+        width: 100%;
+        height: 100px;
+        background-color: white;
+        position: fixed;
+
+    }
+
+    /*头部中间内容*/
+    .header-cont {
+        width: 80%;
+        margin: 0 auto;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    /*大logo*/
+    .logo {
+        height: 100%;
+        width: 368px;
+        background: url("loadImg/A45CB87242335DD6F081540B4FE5855D.jpg") no-repeat;
+        background-size: contain;
+        display: inline-block;
+        float: left;
+    }
+
+    /*App下载*/
+    .header-cont a:nth-of-type(3) {
+        padding: 5px 30px;
+        text-decoration: none;
+        color: rgb(0, 139, 237);
+        font-size: 18px;
+        font-weight: bold;
+        background-color: rgb(240, 249, 255);
+        float: right;
+        margin: 30px auto 0;
+    }
+
+    /*浏览内容*/
+    .header-cont a:nth-of-type(2) {
+        float: right;
+        vertical-align: middle;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        color: black;
+        margin: 35px 20px 0;
+    }
+
+    .stance {
+        width: 100%;
+        height: 120px;
+    }
+
+    /*大手机*/
+    .phone {
+        width: 100%;
+        height: 449px;
+        background-color: rgb(0, 139, 237);
+    }
+
+    /*大手机中内容*/
+    .phone-cont {
+        width: 80%;
+        margin: 0 auto;
+        height: 100%;
+        /*overflow: hidden;*/
+    }
+
+    /*大手机左边内容*/
+    .phone-img {
+        float: left;
+        overflow: hidden;
+
+    }
+    /*动画效果*/
+    .phone-img > img {
+        animation: fadeInUp 1s;
+    }
+
+    /*大手机右边内容*/
+    .phone-text {
+        height: 100%;
+        width: 50%;
+        float: right;
+        text-align: center;
+        animation: fadeInRight 1s;
+    }
+
+    /*右边内容标题*/
+    .phone-text p:nth-of-type(1) {
+        color: white;
+        font-size: 40px;
+        width: 400px;
+        margin: 90px auto 0;
+    }
+
+    /*右边内容中国字*/
+    .phone-text p:nth-of-type(2) {
+        color: rgb(147, 206, 247);
+        width: 400px;
+        margin: 0 auto;
+        text-align: left;
+
+    }
+
+    /*左边的码*/
+    .phone-ma {
+        width: 400px;
+        margin: 30px auto 0;
+        /*overflow: hidden;*/
+    }
+
+    /*二维码*/
+    .phone-ma > img {
+        float: left;
+    }
+
+    /*手机下载*/
+    .phone-ma-ios {
+        text-align: center;
+        float: right;
+        width: 50%;
+        position: relative;
+    }
+    /*ios图片*/
+    .phone-ma-ios div:nth-of-type(1) {
+        background: url("loadImg/手机.png") no-repeat left;
+        background-size: contain;
+    }
+
+    /*下载两个版本*/
+
+    .phone-ma-ios div:nth-of-type(1),
+    .android {
+        color: rgb(55, 66, 74);
+        background-color: white;
+        width: 100%;
+        font-size: 30px;
+        padding: 10px 0 0 0;
+        margin-top: 3px;
+        border-radius: 5px;
+        position: relative;
+    }
+    /*安卓图片*/
+    .android {
+        background: white url("loadImg/安卓.png") no-repeat top left;
+        background-size: 20%;
+
+    }
+
+
+
+    /*悬停效果*/
+    .phone-ma-ios div:hover {
+        background-color: rgb(224, 243, 255);
+    }
+
+    /*隐藏安卓下载市场*/
+    .android-none {
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+        margin: 0;
+        display: none;
+    }
+
+    /*显示安卓下载市场*/
+    .android-block {
+        position: absolute;
+        z-index: 5;
+        width: 100%;
+        margin: 0;
+        display: block;
+    }
+
+    /*下载市场下的显示*/
+    .android-none div,
+    .android-block div {
+        color: rgb(55, 66, 74);
+        background-color: white;
+        width: 100%;
+        font-size: 30px;
+        padding: 10px 0;
+        border-radius: 0;
+    }
+
+    /*真正的内容*/
+    .main {
+
+        width: 100%;
+        background-color: rgb(249, 249, 249);
+        padding-top: 30px;
+    }
+
+    .main-main {
+        width: 80%;
+        margin: 30px auto 0;
+    }
+
+    /*内容头部*/
+    .main-header {
+        width: 100%;
+        overflow: hidden;
+        font-size: 30px;
+    }
+
+    /*头部左边*/
+    .main-header span:nth-of-type(1) {
+        float: left;
+    }
+
+    /*头部右边*/
+    .main-header span:nth-of-type(2) {
+        float: right;
+        color: gray;
+    }
+
+    /*头部中间*/
+    #main-content {
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    /*每个小内容*/
+    .wrap {
+        width: 25%;
+        padding: 10px;
+        background-color: white;
+        display: inline-block;
+        margin: 5px 35px;
+        vertical-align: middle;
+    }
+
+    /*小内容中的图片*/
+    .wrap-img img {
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    /*每个小内容中的文字*/
+    .wrap-text {
+        width: 100%;
+        height: 100%;
+        margin-top: 20px;
+        vertical-align: middle;
+    }
+
+    /*更多*/
+    .more {
+        width: 90%;
+        height: 60px;
+        background-color: rgb(232, 238, 242);
+        margin: 0 auto;
+        font-size: 25px;
+        text-align: center;
+        line-height: 60px;
+        color: rgb(21, 89, 127);
+    }
+
+    /*尾部*/
+    .footer {
+        width: 100%;
+        padding: 40px 0 80px;
+        background-color: rgb(229, 229, 229);
+        margin-top: 30px;
+    }
+
+    /*尾部内容*/
+    .footer-content {
+        width: 80%;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .footer-text {
+        color: rgb(102, 102, 102);
+        width: 66%;
+        font-size: 15px;
+        float: left;
+    }
+
+    .footer-ma {
+        width: 30%;
+        float: right;
+        text-align: center;
+    }
+
+    .footer-ma > div {
+        padding: 10px 5px;
+        background-color: white;
+        width: 50%;
+        margin-left: 60px;
+        color: rgb(102, 102, 102);
+        font-size: 20px;
+    }
+
+
+</style>
+
+<body>
+
+<div id="root"></div>
+<script type="text/babel">
+
+    //头部内容
+    class Header extends React.Component {
+        render() {
+            return (
+                    <div className="header">
+                        <div className="header-cont">
+                            <a href="" className="logo"></a>
+                            <a href="">浏览内容</a>
+                            <a href="">App下载</a>
+                        </div>
+                    </div>
+            )
+        }
+
+    }
+
+    //站位位置
+    class Stance extends React.Component {
+        render() {
+            return (
+                    <div className="stance"></div>
+            )
+        }
+    }
+
+    //大手机部分
+    class Phone extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {
+                className: 'android-none'
+            }
+        }
+
+        mouseover(event) {
+            this.setState({
+                className: 'android-block'
+            })
+        }
+        mouseout(event) {
+            this.setState({
+                className: 'android-none'
+            })
+        }
+
+        render() {
+            return (
+
+                    <div className="phone">
+
+                        <div className="phone-cont">
+
+                            <div className="phone-img">
+                                <img src="loadImg/phone_sample.png"/>
+                            </div>
+
+                            <div className="phone-text">
+                                <p>每天三次,&nbsp;每次七分钟</p>
+                                <p>在中国，资讯类移动应用的人均阅读时长是 5 分钟，而在知乎日报，这个数字是 21。</p>
+
+                                <div className="phone-ma">
+                                    <img src="loadImg/qr_top2.png" alt=""/>
+
+                                    <div className="phone-ma-ios">
+                                        <div>ios版
+                                        </div>
+                                        <div onMouseOut={this.mouseout.bind(this)}
+                                             onMouseOver={this.mouseover.bind(this)} className="android">
+                                            Android版
+                                            <div className={this.state.className}>
+                                                <div>豌豆荚</div>
+                                                <div>91市场</div>
+                                                <div>360市场</div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+            )
+
+        }
+    }
+
+
+    var imgArray = [];//存放内容图片的数组
+    for (var i = 0; i < 30; i++) {
+        imgArray.push('mainImg/' + i + '.jpg');
+    }
+
+    var textArray = ['给女生的几招穿衣搭配技巧，下次出门不用那么纠结了 ', '大误 · 猫的守墓人 ', '陕西车祸死亡 36 人，看了看事故路段，发现有些问题 ', '大风刮过要想告赢唐七抄袭，该怎么办？ ', '「我爱你，但你必须听我的」 ', '再见了，暴雪电影部，我要去北京做中国动画了 ', '铁甲、机器人，为什么这类动画和电影总是让我们着迷？ ', '我们聊聊 Apple 颜色设计的历程，再说 iPhone 8 的悬念 ', '被你当做「性启蒙读物」的《金瓶梅》，历史地位可是相当高 ', '你最喜欢的商场都长什么样？ ', '瞎扯 · 如何正确地吐槽 ', '小事 · 爸爸去世之后 ', '摇滚青年陈佩斯，奇怪吗？其实一点都不奇怪 ', '一盘酸辣爽口又劲道的凉面，夏天恨不得每天都拌来吃 ', '小时候去新华书店花 10 块钱买的游戏光盘，竟然是「伪正版」 ', '环游一次世界要花多少钱？73 万，这是我们帮你算出的账 ', '遣返「格斗孤儿」回凉山，等待他们的只有毒品、艾滋和贫穷 ', '这个玩钢镚儿小游戏，玩着玩着就解释了一个社会问题 ', '国内最常见的普通楼房，原来是「社会主义审美」 ', '别再问年轻人凭什么不加班了，加班就等于努力工作吗？ ', '为什么各种宗教都有那么多禁忌？ ', '大误 · 可能是最适合中国人减肥的文章 ', '彩虹有没有倒影？ ', '多少级的地震可以撼动全球？ ', '朋友圈一篇「癌症最强科普文」传得够广，但别全信了 ', '终于可以回答「生吃带鱼是什么样的感受」了 ', '《权力的游戏》中的灰鳞病现实中真的存在吗？ ', '「在职场中交不到朋友才正常」，这话其实没错 ', '「香港爆发史无前例大流感，超过 SARS」……等等，别慌 ', '瞎扯 · 如何正确地吐槽 '];
+
+
+    //真正的内容
+    var arr = [] //存放每个小内容的数组
+    class Main extends React.Component {
+        render() {
+            for (var i = 0; i < imgArray.length; i++) {
+                arr.push(<div className="wrap">
+                    <div className="wrap-img">
+                        <img src={imgArray[i]} alt=""/>
+                    </div>
+                    <div className="wrap-text">{textArray[i]}</div>
+                </div>)
+            }
+
+            return (
+                    <div className="main">
+                        <div className="main-main">
+                            <div className="main-header">
+                                <span>浏览内容</span>
+                                <span>最新内容</span>
+                            </div>
+                            <div id="main-content">
+                                {
+                                    arr
+
+                                }
+                            </div>
+                            <div className="more">更多精彩内容可在知乎日报应用中查看</div>
+                        </div>
+                    </div>
+
+            )
+
+
+        }
+
+
+    }
+
+    //尾部
+    class Fooder extends React.Component {
+        render() {
+            return (
+                    <div className="footer">
+                        <div className="footer-content">
+                            <div className="footer-text">
+
+                                <p>知乎日报是一款拥有千万用户的资讯类客户端，每日提供来自知乎社区的精选问答，还有国内一流媒体的专栏特稿。</p>
+                                <br/>
+                                <p>主题日报包括动漫、设计、大公司、游戏、财经、电影、电子音乐、互联网安全等丰富内容，为业内人和资深爱好
+                                    者推荐各领域最精彩文章，满足高质量阅读需求。</p>
+                                <br/>
+                                <p>
+                                    在知乎日报，告别浮躁，重获阅读的愉悦。
+                                </p>
+                                <br/>
+                                <p>
+                                    © 2017 知乎
+                                </p>
+                            </div>
+                            <div className="footer-ma">
+                                <div>
+                                    <img src="loadImg/qr_bottom.png" alt=""/>
+                                    <p>
+                                        扫描下载客户端
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+            )
+        }
+
+
+    }
+
+
+
+
+
+
+    //渲染全部
+    const element = (
+            <div>
+                <Header/>
+                <Stance/>
+                <Phone />
+                <Main />
+                <Fooder/>
+            </div>
+    )
+
+    ReactDOM.render(
+            element,
+            document.getElementById('root')
+    )
+
+
+</script>
+
+
+</body>
+</html>
